@@ -1,53 +1,101 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-    <meta charset="UTF-8">
-    <title>İstanbul Anlık Trafik Durumu</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            background: #f4f4f4;
-        }
-        h2 {
-            text-align: center;
-            padding: 15px;
-            background: #1e73be;
-            color: white;
-            margin: 0;
-        }
-        .map-container {
-            width: 100%;
-            height: 500px;
-        }
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: 0;
-        }
-        .info {
-            text-align: center;
-            padding: 10px;
-            font-size: 14px;
-            background: #fff;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>İstanbul Trafik Durumu</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    padding: 15px;
+}
+.container {
+    max-width: 600px;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+select, button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+}
+button {
+    background: #1e73be;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+iframe {
+    width: 100%;
+    height: 400px;
+    margin-top: 15px;
+    border: none;
+}
+</style>
 </head>
+
 <body>
 
-<h2>🚦 İstanbul Anlık Trafik Durumu</h2>
+<div class="container">
+    <h3>🚦 İstanbul İlçeler Arası Trafik</h3>
 
-<div class="map-container">
-    <iframe 
-        src="https://www.google.com/maps?q=Istanbul&output=embed&layer=t"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
+    <label>Başlangıç İlçesi</label>
+    <select id="from">
+        <option value="">Seçiniz</option>
+        <option>Kadıköy</option>
+        <option>Beşiktaş</option>
+        <option>Üsküdar</option>
+        <option>Bakırköy</option>
+        <option>Esenyurt</option>
+        <option>Bağcılar</option>
+        <option>Fatih</option>
+        <option>Şişli</option>
+        <option>Pendik</option>
+        <option>Avcılar</option>
+    </select>
+
+    <label>Varış İlçesi</label>
+    <select id="to">
+        <option value="">Seçiniz</option>
+        <option>Kadıköy</option>
+        <option>Beşiktaş</option>
+        <option>Üsküdar</option>
+        <option>Bakırköy</option>
+        <option>Esenyurt</option>
+        <option>Bağcılar</option>
+        <option>Fatih</option>
+        <option>Şişli</option>
+        <option>Pendik</option>
+        <option>Avcılar</option>
+    </select>
+
+    <button onclick="showRoute()">Trafiği Göster</button>
+
+    <iframe id="map"></iframe>
 </div>
 
-<div class="info">
-    Kırmızı alanlar yoğun trafiği, sarı alanlar orta yoğunluğu göstermektedir.
-</div>
+<script>
+function showRoute() {
+    var from = document.getElementById("from").value;
+    var to = document.getElementById("to").value;
+
+    if(from === "" || to === "") {
+        alert("Lütfen iki ilçe de seçiniz.");
+        return;
+    }
+
+    var url = "https://www.google.com/maps/dir/?api=1"
+        + "&origin=" + encodeURIComponent(from + ", İstanbul")
+        + "&destination=" + encodeURIComponent(to + ", İstanbul")
+        + "&travelmode=driving"
+        + "&traffic_model=best_guess";
+
+    document.getElementById("map").src = url;
+}
+</script>
 
 </body>
 </html>
