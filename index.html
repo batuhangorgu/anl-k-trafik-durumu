@@ -10,42 +10,56 @@ body {
     background: #f4f4f4;
     padding: 15px;
 }
+
+.back-btn {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: #555;
+    color: #fff;
+    padding: 8px 12px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
 .container {
-    max-width: 650px;
-    margin: auto;
+    max-width: 600px;
+    margin: 60px auto 0;
     background: #fff;
     padding: 20px;
     border-radius: 8px;
 }
-label {
-    margin-top: 10px;
-    display: block;
-}
+
 select, button {
     width: 100%;
     padding: 10px;
-    margin-top: 8px;
+    margin-top: 10px;
 }
+
 button {
     background: #1e73be;
-    color: #fff;
+    color: white;
     border: none;
     cursor: pointer;
 }
-.back-btn {
-    background: #555;
+
+.info {
     margin-top: 10px;
-}
-iframe {
-    width: 100%;
-    height: 420px;
-    margin-top: 15px;
-    border: none;
+    font-size: 14px;
+    color: #333;
+    background: #f1f1f1;
+    padding: 8px;
+    border-radius: 5px;
 }
 </style>
 </head>
 
 <body>
+
+<a class="back-btn" href="https://batuhangorgu.wordpress.com/%f0%9f%9a%a6-istanbul-anlik-trafik-durumu/">
+⬅ Geri Dön
+</a>
 
 <div class="container">
     <h3>🚦 İstanbul İlçeler Arası Anlık Trafik</h3>
@@ -80,20 +94,16 @@ iframe {
         <option>Avcılar</option>
     </select>
 
-    <button onclick="showRoute()">Trafiği Göster</button>
+    <button onclick="openTraffic()">Trafiği Göster</button>
 
-    <iframe id="map"
-        src="https://www.google.com/maps?q=Istanbul&output=embed">
-    </iframe>
-
-    <button class="back-btn"
-        onclick="window.location.href='https://batuhangorgu.wordpress.com/%f0%9f%9a%a6-istanbul-anlik-trafik-durumu/'">
-        ⬅ Geri Dön
-    </button>
+    <div class="info">
+        Seçilen iki ilçe arasındaki <b>anlık trafik yoğunluğu, süre ve alternatif yollar</b>
+        Google Haritalar üzerinde <b>canlı olarak</b> gösterilir.
+    </div>
 </div>
 
 <script>
-function showRoute() {
+function openTraffic() {
     var from = document.getElementById("from").value;
     var to = document.getElementById("to").value;
 
@@ -102,20 +112,13 @@ function showRoute() {
         return;
     }
 
-    var embedUrl =
-        "https://www.google.com/maps/embed/v1/directions" +
-        "?key=" + "" +
-        "&origin=" + encodeURIComponent(from + ", İstanbul") +
-        "&destination=" + encodeURIComponent(to + ", İstanbul") +
-        "&mode=driving";
+    var url =
+        "https://www.google.com/maps/dir/" +
+        encodeURIComponent(from + ", İstanbul") + "/" +
+        encodeURIComponent(to + ", İstanbul") +
+        "/?travelmode=driving&traffic=on";
 
-    // API key olmadan çalışması için alternatif embed
-    embedUrl =
-        "https://www.google.com/maps?q=" +
-        encodeURIComponent(from + " - " + to + " İstanbul") +
-        "&output=embed";
-
-    document.getElementById("map").src = embedUrl;
+    window.open(url, "_blank");
 }
 </script>
 
