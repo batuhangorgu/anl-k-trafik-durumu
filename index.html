@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>İstanbul Trafik Durumu</title>
+<title>İstanbul Anlık Trafik</title>
 
 <style>
 body {
@@ -11,26 +11,34 @@ body {
     padding: 15px;
 }
 .container {
-    max-width: 600px;
+    max-width: 650px;
     margin: auto;
-    background: white;
+    background: #fff;
     padding: 20px;
     border-radius: 8px;
+}
+label {
+    margin-top: 10px;
+    display: block;
 }
 select, button {
     width: 100%;
     padding: 10px;
-    margin-top: 10px;
+    margin-top: 8px;
 }
 button {
     background: #1e73be;
-    color: white;
+    color: #fff;
     border: none;
     cursor: pointer;
 }
+.back-btn {
+    background: #555;
+    margin-top: 10px;
+}
 iframe {
     width: 100%;
-    height: 400px;
+    height: 420px;
     margin-top: 15px;
     border: none;
 }
@@ -40,7 +48,7 @@ iframe {
 <body>
 
 <div class="container">
-    <h3>🚦 İstanbul İlçeler Arası Trafik</h3>
+    <h3>🚦 İstanbul İlçeler Arası Anlık Trafik</h3>
 
     <label>Başlangıç İlçesi</label>
     <select id="from">
@@ -74,7 +82,14 @@ iframe {
 
     <button onclick="showRoute()">Trafiği Göster</button>
 
-    <iframe id="map"></iframe>
+    <iframe id="map"
+        src="https://www.google.com/maps?q=Istanbul&output=embed">
+    </iframe>
+
+    <button class="back-btn"
+        onclick="window.location.href='https://batuhangorgu.wordpress.com/%f0%9f%9a%a6-istanbul-anlik-trafik-durumu/'">
+        ⬅ Geri Dön
+    </button>
 </div>
 
 <script>
@@ -82,18 +97,25 @@ function showRoute() {
     var from = document.getElementById("from").value;
     var to = document.getElementById("to").value;
 
-    if(from === "" || to === "") {
-        alert("Lütfen iki ilçe de seçiniz.");
+    if (from === "" || to === "") {
+        alert("Lütfen iki ilçe seçiniz.");
         return;
     }
 
-    var url = "https://www.google.com/maps/dir/?api=1"
-        + "&origin=" + encodeURIComponent(from + ", İstanbul")
-        + "&destination=" + encodeURIComponent(to + ", İstanbul")
-        + "&travelmode=driving"
-        + "&traffic_model=best_guess";
+    var embedUrl =
+        "https://www.google.com/maps/embed/v1/directions" +
+        "?key=" + "" +
+        "&origin=" + encodeURIComponent(from + ", İstanbul") +
+        "&destination=" + encodeURIComponent(to + ", İstanbul") +
+        "&mode=driving";
 
-    document.getElementById("map").src = url;
+    // API key olmadan çalışması için alternatif embed
+    embedUrl =
+        "https://www.google.com/maps?q=" +
+        encodeURIComponent(from + " - " + to + " İstanbul") +
+        "&output=embed";
+
+    document.getElementById("map").src = embedUrl;
 }
 </script>
 
